@@ -37,6 +37,22 @@ abstract class ValidationCommand extends BaseCommand
         return parent::execute($input, $output);
     }
 
+    /**
+     * get logging contents
+     * 
+     * @return array<string, mixed>
+     */
+    #[\Override]
+    protected function loggingContents(): array
+    {
+        return array_merge(
+            parent::loggingContents(),
+            [
+                "validated" => $this->validated(),
+            ]
+        );
+    }
+
     /*----------------------------------------*
      * Property
      *----------------------------------------*/
