@@ -20,17 +20,23 @@ abstract class BaseCommand extends Command
      */
     public function handle()
     {
-        $this->logging();
+        try {
+            $message = $this->process();
 
-        $this->process();
+            $this->logging(true, $message);
+        } catch (\Throwable $exception) {
+            $this->logging(false, $exception->getMessage());
+
+            throw $exception;
+        }
     }
 
     /**
      * run command process
      * 
-     * @return void
+     * @return string
      */
-    abstract protected function process(): void;
+    abstract protected function process(): string;
 
     /*----------------------------------------*
      * Logging
@@ -39,15 +45,22 @@ abstract class BaseCommand extends Command
     /**
      * logging
      * 
+     * @param bool $result
+     * @param string $message
      * @return void
      */
-    protected function logging(): void
+    protected function logging(bool $result, string $message): void
     {
         if (!$this->isLoggingEnable()) return;
 
         $logger = $this->logger();
 
-        $logger->add($this->loggingContents());
+        $contents = array_merge($this->loggingContents(), [
+            "result"  => $result,
+            "message" => $message,
+        ]);
+
+        $logger->add($contents);
 
         $logger->logging();
     }
