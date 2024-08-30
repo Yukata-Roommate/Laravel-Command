@@ -34,9 +34,9 @@ abstract class BaseCommand extends Command
     /**
      * run command process
      * 
-     * @return string
+     * @return string|array<string, mixed>
      */
-    abstract protected function process(): string;
+    abstract protected function process(): string|array;
 
     /*----------------------------------------*
      * Logging
@@ -46,19 +46,18 @@ abstract class BaseCommand extends Command
      * logging
      * 
      * @param bool $result
-     * @param string $message
+     * @param string|array<string, mixed> $message
      * @return void
      */
-    protected function logging(bool $result, string $message): void
+    protected function logging(bool $result, string|array $message): void
     {
         if (!$this->isLoggingEnable()) return;
 
+        if (is_string($message)) $message = ["message" => $message];
+
         $logger = $this->logger();
 
-        $contents = array_merge($this->loggingContents(), [
-            "result"  => $result,
-            "message" => $message,
-        ]);
+        $contents = array_merge($this->loggingContents(), $message, ["result" => $result]);
 
         $logger->add($contents);
 

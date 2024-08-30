@@ -3,7 +3,7 @@
     "description": "Easy to use command for Laravel",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "autoload": {
         "psr-4": {
             "YukataRm\\Laravel\\Command\\": "src"
