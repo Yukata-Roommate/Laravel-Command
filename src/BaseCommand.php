@@ -83,7 +83,19 @@ abstract class BaseCommand extends Command
     {
         $logger = LoggerFacade::info();
 
+        $logger->setBaseDirectory($this->configLoggingBaseDirectory());
+
         $logger->setDirectory($this->configLoggingDirectory());
+
+        $logger->setFileNameFormat($this->configLoggingFileNameFormat());
+
+        $logger->setFileExtension($this->configLoggingFileExtension());
+
+        $logger->setFileMode($this->configLoggingFileMode());
+
+        if (!is_null($this->configLoggingFileOwner())) $logger->setFileOwner($this->configLoggingFileOwner());
+
+        if (!is_null($this->configLoggingFileGroup())) $logger->setFileGroup($this->configLoggingFileGroup());
 
         $logger->setLogFormat(LogFormatEnum::MESSAGE);
 
@@ -131,6 +143,16 @@ abstract class BaseCommand extends Command
     }
 
     /**
+     * get config logging base directory
+     * 
+     * @return string
+     */
+    protected function configLoggingBaseDirectory(): string
+    {
+        return $this->config("logging.base_directory", storage_path("logs"));
+    }
+
+    /**
      * get config logging directory
      * 
      * @return string
@@ -138,5 +160,55 @@ abstract class BaseCommand extends Command
     protected function configLoggingDirectory(): string
     {
         return $this->config("logging.directory", "command");
+    }
+
+    /**
+     * get config logging file name format
+     * 
+     * @return string
+     */
+    protected function configLoggingFileNameFormat(): string
+    {
+        return $this->config("logging.file.name_format", "Y-m-d");
+    }
+
+    /**
+     * get config logging file extension
+     * 
+     * @return string
+     */
+    protected function configLoggingFileExtension(): string
+    {
+        return $this->config("logging.file.extension", "log");
+    }
+
+    /**
+     * get config logging file mode
+     * 
+     * @return int
+     */
+    protected function configLoggingFileMode(): int
+    {
+        return $this->config("logging.file.mode", 0666);
+    }
+
+    /**
+     * get config logging file owner
+     * 
+     * @return string|null
+     */
+    protected function configLoggingFileOwner(): string|null
+    {
+        return $this->config("logging.file.owner", null);
+    }
+
+    /**
+     * get config logging file group
+     * 
+     * @return string|null
+     */
+    protected function configLoggingFileGroup(): string|null
+    {
+        return $this->config("logging.file.group", null);
     }
 }
