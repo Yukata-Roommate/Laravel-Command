@@ -1,0 +1,39 @@
+{
+    "name": "yukata-roommate/laravel-command",
+    "description": "Easy to use command for Laravel",
+    "version": "1.0.0",
+    "keywords": [
+        "yukata-roommate",
+        "php",
+        "laravel",
+        "package",
+        "command",
+        "laravel-command"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yukata Roommate"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "YukataRm\\Laravel\\Command\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "YukataRm\\Laravel\\Command\\ServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": ">=8.3.0",
+        "laravel/framework": "^11.0 || ^12.0",
+        "yukata-roommate/cli": "^1.0.0",
+        "yukata-roommate/file": "^1.0.0",
+        "yukata-roommate/laravel-log": "^1.0.0",
+        "yukata-roommate/time": "^1.0.0"
+    }
+}
